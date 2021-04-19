@@ -170,9 +170,136 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['well'],
+  data: function data() {
+    return {
+      workOverComplexity: 0
+    };
+  },
   components: {
     'well-months': _WellMonths_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -222,8 +349,7 @@ __webpack_require__.r(__webpack_exports__);
     plusOne: function plusOne(num) {
       return ++num;
     }
-  },
-  created: function created() {}
+  }
 });
 
 /***/ }),
@@ -287,12 +413,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// import constants from "../Constants";
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['well', 'i'],
   data: function data() {
-    return {// wells: constants.wells
-    };
+    return {};
   },
   methods: {},
   mounted: function mounted() {
@@ -420,12 +544,151 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      workOverComplexity: 0,
+      detailedCost: 1,
       well: new _models_Well__WEBPACK_IMPORTED_MODULE_0__["default"](),
+      expo: '',
+      exponential: 0,
+      hyperbolic: 0,
+      harmonic: 0,
       months: [{
         'value': ''
       }] // Initializes the Months Array with one Value
@@ -435,6 +698,23 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     hideModal: function hideModal() {
       this.isVisible = false;
+    },
+    changeDecline: function changeDecline(event) {
+      var value = event.target.value;
+
+      if (value == "exponential") {
+        this.exponential = 1;
+      }
+
+      if (value == "hyperbolic") {
+        this.hyperbolic = 1;
+      }
+
+      if (value == "harmonic") {
+        this.harmonic = 1;
+      }
+
+      console.log(value);
     },
     submitMonth: function submitMonth() {
       this.well.months = this.months;
@@ -448,9 +728,49 @@ __webpack_require__.r(__webpack_exports__);
       this.months = this.months.concat({
         'value': ''
       });
+    },
+    calculatePercentAndPermeability: function calculatePercentAndPermeability() {
+      this.checkPercentage();
+      this.checkPermeability();
+    },
+    checkPercentage: function checkPercentage() {
+      var permas = (1 + this.well.perk / 100) * this.well.permbs;
+
+      if (!isNaN(permas)) {
+        this.well.permas = permas.toFixed(2);
+      }
+    },
+    checkPermeability: function checkPermeability() {
+      var perk = (this.well.permas / this.well.permbs - 1) * 100;
+
+      if (!isNaN(perk)) {
+        this.well.perk = perk.toFixed(2);
+      }
+    },
+    checkSkin: function checkSkin() {
+      var perc = (this.well.skinas / this.well.skinbs - 1) * 100;
+
+      if (!isNaN(perc)) {
+        this.well.perskinas = perc.toFixed(2);
+      }
+    },
+    checkSkinPercentage: function checkSkinPercentage() {
+      var peras = (1 + this.well.perskinas / 100) * this.well.skinbs;
+
+      if (!isNaN(peras)) {
+        this.well.skinas = peras.toFixed(2);
+      }
+    },
+    displayPi: function displayPi() {// alert(this.well.pias());
     }
   },
-  created: function created() {}
+  created: function created() {// this.well.months = this.months;
+    // let well1 = new Well("Well 1", 55, 1500, 0.03, 1.47, 0.37, 473.5, 187, 964, 415.51, 18, -3, 44, 2200, "Exponential", 50, 70, 12, 0, 0, 0, 5, 0, 1, 1, 0, 0, 0, 5,5,4,5, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]);
+    // let well2 = new Well("Well 2", 41, 1500, 0.03, 1.14, 0.3, 202.8, 106, 418, 415.51, 20, 0.33, 44, 592, "Exponential", 50, 70, 12, 0, 0, 0, 5, 0, 2, 1, 0, 0, 0, 5,5,4,5, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]);
+    // let well3 = new Well("Well 3", 50, 1500, 0.03, 1.72, 0.3, 583.5, 65, 262, 415.51, 15.4, 0.33, 44, 991, "Exponential", 50, 70, 12, 0, 0, 0, 5, 6, 0, 1, 1, 0, 0, 5,5,4,5, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]);
+    // let well4 = new Well("Well 4", 30, 1500, 0.03, 1.4, 0.385, 241.3, 110, 165, 415.51, 13.2, 2, 44, 825, "Exponential", 50, 70, 12, 0, 0, 0, 4, 6, 0, 1, 0, 0, 0, 4,5,3,4, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]);
+    // store.commit('addToWell', this.well);
+  }
 });
 
 /***/ }),
@@ -507,7 +827,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     toggleVisibilityStatus: function toggleVisibilityStatus() {
-      this.visibilityStatus ? this.visibilityStatus = false : this.visibilityStatus = true;
+      this.visibilityStatus = !this.visibilityStatus;
     },
     plusOne: function plusOne(num) {
       return ++num;
@@ -528,7 +848,6 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _models_WellAnalyzer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/WellAnalyzer */ "./src/js/models/WellAnalyzer.js");
 /* harmony import */ var _stores_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../stores/store */ "./src/js/stores/store.js");
-/* harmony import */ var _models_Well__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/Well */ "./src/js/models/Well.js");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -679,12 +998,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
-//
-//
-//
-//
-//
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -708,7 +1021,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }, {
         varName: "npv",
         textName: "NPV (%)"
-      }]
+      }],
+      chartOptions: {
+        theme: "light1",
+        title: {
+          text: "Well Production Gain"
+        }
+      },
+      chart: null
     };
   },
   computed: {
@@ -718,14 +1038,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       var cloneWell = _toConsumableArray(wells); //deep copy here
 
 
-      return new _models_WellAnalyzer__WEBPACK_IMPORTED_MODULE_0__["default"](cloneWell); // return new WellAnalyzer(
-      //     [
-      //         new Well( 'well2',3.83, 0.65, 31.82, 10.90, 0, 0, 0, 5, 0, 2, 1, 0, 0, 0, 5,5,4,5,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
-      //         new Well( 'well4',1.69, 0.70, 10.04, 5.59, 0, 0, 0, 5, 0, 1, 1, 0, 0, 0, 5,5,4,5,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
-      //         new Well( 'well3',3.91, 0.59, 16.12, 9.49, 0, 0, 0, 5, 6, 0, 1, 1, 0, 0, 5,5,4,5,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
-      //         new Well( 'well1',7.13, 0.62, 88.26, 19.00, 0, 0, 0, 4, 6, 0, 1, 0, 0, 0, 4,5,3,4,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
-      //     ]
-      // );
+      return new _models_WellAnalyzer__WEBPACK_IMPORTED_MODULE_0__["default"](cloneWell);
     }
   },
   methods: {
@@ -733,9 +1046,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return ++num;
     }
   },
-  created: function created() {
-    Event.$on("formsubmitted", function () {// alert('workinghereresultsff');
-    });
+  created: function created() {},
+  mounted: function mounted() {
+    this.chart = new CanvasJS.Chart("chartContainer", this.chartOptions);
+    this.chart.options.data = this.wellAnalyzer.canvasChartData();
+    this.chart.render();
   }
 });
 
@@ -1231,12 +1546,219 @@ var render = function() {
         _vm._v(_vm._s(_vm.well.name))
       ]),
       _vm._v(" "),
+      _c("h4", { staticStyle: { color: "black" } }, [
+        _vm._v("Well Information")
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "flex flex-4" }, [
         _c("article", [
           _vm._v("\n            Name of Well"),
           _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
+            attrs: { type: "text", disabled: "" },
             domProps: { value: _vm.well.name }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Re (Reservoir Radius)"),
+          _c("input", {
+            attrs: { type: "text", disabled: "" },
+            domProps: { value: _vm.well.rr }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Rw (Well Bore radius)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Rw (Well Bore radius)",
+              type: "text",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.wbr }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Bo (Formation volume factor)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Bo (Formation volume factor)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.fvf }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            μ (Viscocity)"),
+          _c("input", {
+            attrs: {
+              placeholder: "μ (Viscocity)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.vis }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            H(Reservoir Thickness)"),
+          _c("input", {
+            attrs: {
+              placeholder: "H(Reservoir Thickness)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.rt }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Pr-Pwf (Pressure Drop)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Pr-Pwf (Pressure Drop)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.pd }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            K(b/s) (Permeability)"),
+          _c("input", {
+            attrs: {
+              placeholder: "K(b/s) (Permeability)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.permbs }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            K(a/s) (Permeability)"),
+          _c("input", {
+            attrs: {
+              placeholder: "K(a/s) (Permeability)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.permas }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Percentage of K(a/s)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Percentage of K(a/s)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.perk }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Skin (b/s)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Skin (b/s)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.skinbs }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Skin (a/s)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Skin (a/s)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.skinas }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Percentage of Skin a/s"),
+          _c("input", {
+            attrs: {
+              placeholder: "Percentage of Skin a/s",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.perskinas }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Q(b/s) (Production rate)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Q(b/s) (Production rate)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.prbs }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("hr", { staticStyle: { "margin-bottom": "3px" } }),
+      _vm._v(" "),
+      _c("h4", { staticStyle: { color: "black" } }, [
+        _vm._v("Technical Parameters")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
+        _c("article", [
+          _vm._v("\n            PI(A/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pias }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            PI(B/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pibs }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            PI Ideal"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pideal }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            FE(B/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.febs }
           })
         ]),
         _vm._v(" "),
@@ -1249,108 +1771,290 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            R-Factor"),
+          _vm._v("\n            ΔP Skin (B/S)"),
           _c("input", {
             attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.rfac }
+            domProps: { value: _vm.well.pskinbs }
           })
         ]),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            PI(A/S)"),
+          _vm._v("\n            ΔP Skin (A/S)"),
           _c("input", {
             attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.pias }
+            domProps: { value: _vm.well.pskinas }
           })
         ]),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            SR(Simulation Ratio)"),
+          _vm._v("\n            R-Factor (B/S)"),
           _c("input", {
             attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.sr }
+            domProps: { value: _vm.well.rfacbs }
           })
         ]),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            a(Gravel pack linear)"),
+          _vm._v("\n            R-Factor (A/S)"),
           _c("input", {
             attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.gpl }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            g(Gravel pack index)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.gpi }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            p(Packer index)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.pi }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            d(Workover depth index)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.wdi }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            m(Mandrel index)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.mi }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            r(Age of last re-entry)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.alr }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            v(Angle of deviation)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.aod }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            t(Lost wireline index)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.lwi }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            c(Casing patch index)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.cpi }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            w(Well head repair index)"),
-          _c("input", {
-            attrs: { type: "text", required: "", disabled: "" },
-            domProps: { value: _vm.well.whr }
+            domProps: { value: _vm.well.rfacas }
           })
         ])
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("article", [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.workOverComplexity,
+              expression: "workOverComplexity"
+            }
+          ],
+          attrs: { type: "checkbox", id: "workOverComplexity" },
+          domProps: {
+            checked: Array.isArray(_vm.workOverComplexity)
+              ? _vm._i(_vm.workOverComplexity, null) > -1
+              : _vm.workOverComplexity
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.workOverComplexity,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.workOverComplexity = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.workOverComplexity = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.workOverComplexity = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "workOverComplexity" } }, [
+          _vm._v("Calculate Workover Complexity")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            a(Gravel pack linear)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "a(Gravel pack linear",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.gpl }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            g(Gravel pack index)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "g(Gravel pack index)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.gpi }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            p(Packer index)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "p(Packer index)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.pi }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            d(Workover depth index)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "d(Workover depth index)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.wdi }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            m(Mandrel index)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "m(Mandrel index)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.mi }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            r(Age of last re-entry)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "r(Age of last re-entry)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.alr }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            v(Angle of deviation)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "v(Angle of deviation)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.aod }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            t(Lost wireline index)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "t(Lost wireline index)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.lwi }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            c(Casing patch index)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "c(Casing patch index)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.cpi }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            w(Well head repair index)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "w(Well head repair index)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.whr }
+              })
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
+        _c("article", [
+          _vm._v("\n            Choose Type of Decline:\n            "),
+          _c("select", { attrs: { name: "cars", id: "cars", disabled: "" } }, [
+            _c("option", { attrs: { value: "declineType", selected: "" } }, [
+              _vm._v(_vm._s(_vm.well.declineType) + " Decline")
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
+        _c("article", [
+          _vm._v("\n            Qa (Abandonment Rate)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Qa (Abandonment Rate)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.qa }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Di (Decline Rate)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Di (Decline Rate)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.di }
+          })
+        ]),
+        _vm._v(" "),
+        _vm.well.declineType == "Hyperbolic"
+          ? _c("article", [
+              _vm._v("\n            b (Constant)"),
+              _c("input", {
+                attrs: {
+                  placeholder: "b (Constant)",
+                  type: "text",
+                  required: "",
+                  disabled: ""
+                },
+                domProps: { value: _vm.well.b }
+              })
+            ])
+          : _vm._e()
       ]),
       _vm._v(" "),
       _c("hr", { staticStyle: { "margin-bottom": "3px" } }),
@@ -1397,7 +2101,9 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _vm._v(" "),
-      _c("hr")
+      _c("hr"),
+      _vm._v(" "),
+      _c("hr", { staticStyle: { "margin-top": "-25px" } })
     ],
     1
   )
@@ -1614,6 +2320,10 @@ var render = function() {
     [
       _c("h3", [_vm._v("Fill Well Details")]),
       _vm._v(" "),
+      _c("h4", { staticStyle: { color: "black" } }, [
+        _vm._v("Well Information")
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "flex flex-4" }, [
         _c("article", [
           _vm._v("\n            Name of Well"),
@@ -1640,387 +2350,970 @@ var render = function() {
         ]),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            FE(A/S)"),
+          _vm._v("\n            Re (Reservoir Radius)"),
           _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.well.feas,
-                expression: "well.feas"
+                value: _vm.well.rr,
+                expression: "well.rr"
               }
             ],
-            attrs: { placeholder: "FE(A/S)", type: "text", required: "" },
-            domProps: { value: _vm.well.feas },
+            attrs: {
+              placeholder: "Re (Reservoir Radius)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.rr },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.well, "feas", $event.target.value)
+                _vm.$set(_vm.well, "rr", $event.target.value)
               }
             }
           })
         ]),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            R-Factor"),
+          _vm._v("\n            Rw (Well Bore radius)"),
           _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.well.rfac,
-                expression: "well.rfac"
+                value: _vm.well.wbr,
+                expression: "well.wbr"
               }
             ],
             attrs: {
-              id: "rfac",
-              placeholder: "R-Factor",
+              placeholder: "Rw (Well Bore radius)",
               type: "text",
               required: ""
             },
-            domProps: { value: _vm.well.rfac },
+            domProps: { value: _vm.well.wbr },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.well, "rfac", $event.target.value)
+                _vm.$set(_vm.well, "wbr", $event.target.value)
               }
             }
           })
         ]),
         _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Bo (Formation volume factor)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.fvf,
+                expression: "well.fvf"
+              }
+            ],
+            attrs: {
+              placeholder: "Bo (Formation volume factor)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.fvf },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.well, "fvf", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            μ (Viscocity)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.vis,
+                expression: "well.vis"
+              }
+            ],
+            attrs: { placeholder: "μ (Viscocity)", type: "text", required: "" },
+            domProps: { value: _vm.well.vis },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.well, "vis", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            H(Reservoir Thickness)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.rt,
+                expression: "well.rt"
+              }
+            ],
+            attrs: {
+              placeholder: "H(Reservoir Thickness)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.rt },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.well, "rt", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Pr-Pwf (Pressure Drop)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.pd,
+                expression: "well.pd"
+              }
+            ],
+            attrs: {
+              placeholder: "Pr-Pwf (Pressure Drop)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.pd },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.well, "pd", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            K(b/s) (Permeability)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.permbs,
+                expression: "well.permbs"
+              }
+            ],
+            attrs: {
+              placeholder: "K(b/s) (Permeability)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.permbs },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.well, "permbs", $event.target.value)
+                },
+                _vm.calculatePercentAndPermeability
+              ]
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            K(a/s) (Permeability)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.permas,
+                expression: "well.permas"
+              }
+            ],
+            attrs: {
+              placeholder: "K(a/s) (Permeability)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.permas },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.well, "permas", $event.target.value)
+                },
+                _vm.checkPermeability
+              ]
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Percentage of K(a/s)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.perk,
+                expression: "well.perk"
+              }
+            ],
+            attrs: {
+              placeholder: "Percentage of K(a/s)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.perk },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.well, "perk", $event.target.value)
+                },
+                _vm.checkPercentage
+              ]
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Skin (b/s)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.skinbs,
+                expression: "well.skinbs"
+              }
+            ],
+            attrs: { placeholder: "Skin (b/s)", type: "text", required: "" },
+            domProps: { value: _vm.well.skinbs },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.well, "skinbs", $event.target.value)
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Skin (a/s)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.skinas,
+                expression: "well.skinas"
+              }
+            ],
+            attrs: { placeholder: "Skin (a/s)", type: "text", required: "" },
+            domProps: { value: _vm.well.skinas },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.well, "skinas", $event.target.value)
+                },
+                _vm.checkSkin
+              ]
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Percentage of Skin a/s"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.perskinas,
+                expression: "well.perskinas"
+              }
+            ],
+            attrs: {
+              placeholder: "Percentage of Skin a/s",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.perskinas },
+            on: {
+              input: [
+                function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.well, "perskinas", $event.target.value)
+                },
+                _vm.checkSkinPercentage
+              ]
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Q(b/s) (Production rate b/s)"),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.well.prbs,
+                expression: "well.prbs"
+              }
+            ],
+            attrs: {
+              placeholder: "Q(b/s) (Production rate b/s)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.prbs },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.well, "prbs", $event.target.value)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("hr", { staticStyle: { "margin-bottom": "3px" } }),
+      _vm._v(" "),
+      _c("h4", { staticStyle: { color: "#000000" } }, [
+        _vm._v("Technical Parameters")
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
         _c("article", [
           _vm._v("\n            PI(A/S)"),
           _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pias }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            PI(B/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pibs }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            PI Ideal"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pideal }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            FE(A/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.feas }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            FE(B/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.febs }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            Q(a/s) (Production rate a/s)"),
+          _c("input", {
+            attrs: {
+              placeholder: "Q(a/s) (Production rate a/s)",
+              type: "text",
+              required: "",
+              disabled: ""
+            },
+            domProps: { value: _vm.well.pras }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            ΔP Skin (B/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pskinbs }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            ΔP Skin (A/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.pskinas }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            R-Factor (B/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.rfacbs }
+          })
+        ]),
+        _vm._v(" "),
+        _c("article", [
+          _vm._v("\n            R-Factor (A/S)"),
+          _c("input", {
+            attrs: { type: "text", required: "", disabled: "" },
+            domProps: { value: _vm.well.rfacas }
+          })
+        ])
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("article", [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.workOverComplexity,
+              expression: "workOverComplexity"
+            }
+          ],
+          attrs: { type: "checkbox", id: "workOverComplexity" },
+          domProps: {
+            checked: Array.isArray(_vm.workOverComplexity)
+              ? _vm._i(_vm.workOverComplexity, null) > -1
+              : _vm.workOverComplexity
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.workOverComplexity,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.workOverComplexity = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.workOverComplexity = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.workOverComplexity = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "workOverComplexity" } }, [
+          _vm._v("Calculate Workover Complexity")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            a(Gravel pack linear)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.gpl,
+                    expression: "well.gpl"
+                  }
+                ],
+                attrs: {
+                  placeholder: "a(Gravel pack linear",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.gpl },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "gpl", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            g(Gravel pack index)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.gpi,
+                    expression: "well.gpi"
+                  }
+                ],
+                attrs: {
+                  placeholder: "g(Gravel pack index)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.gpi },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "gpi", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            p(Packer index)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.pi,
+                    expression: "well.pi"
+                  }
+                ],
+                attrs: {
+                  placeholder: "p(Packer index)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.pi },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "pi", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            d(Workover depth index)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.wdi,
+                    expression: "well.wdi"
+                  }
+                ],
+                attrs: {
+                  placeholder: "d(Workover depth index)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.wdi },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "wdi", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            m(Mandrel index)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.mi,
+                    expression: "well.mi"
+                  }
+                ],
+                attrs: {
+                  placeholder: "m(Mandrel index)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.mi },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "mi", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            r(Age of last re-entry)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.alr,
+                    expression: "well.alr"
+                  }
+                ],
+                attrs: {
+                  placeholder: "r(Age of last re-entry)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.alr },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "alr", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            v(Angle of deviation)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.aod,
+                    expression: "well.aod"
+                  }
+                ],
+                attrs: {
+                  placeholder: "v(Angle of deviation)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.aod },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "aod", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            t(Lost wireline index)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.lwi,
+                    expression: "well.lwi"
+                  }
+                ],
+                attrs: {
+                  placeholder: "t(Lost wireline index)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.lwi },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "lwi", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            c(Casing patch index)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.cpi,
+                    expression: "well.cpi"
+                  }
+                ],
+                attrs: {
+                  placeholder: "c(Casing patch index)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.cpi },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "cpi", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.workOverComplexity
+          ? _c("article", [
+              _vm._v("\n            w(Well head repair index)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.whr,
+                    expression: "well.whr"
+                  }
+                ],
+                attrs: {
+                  placeholder: "w(Well head repair index)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.whr },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "whr", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("hr"),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
+        _c("article", [
+          _vm._v("\n            Choose Type of Decline:\n            "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.well.declineType,
+                  expression: "well.declineType"
+                }
+              ],
+              attrs: { name: "declineType", id: "declineType" },
+              on: {
+                change: [
+                  function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.well,
+                      "declineType",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  },
+                  function($event) {
+                    return _vm.changeDecline($event)
+                  }
+                ]
+              }
+            },
+            [
+              _c("option", { attrs: { value: "Exponential", selected: "" } }, [
+                _vm._v("Exponential Decline")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Hyperbolic" } }, [
+                _vm._v("Hyperbolic Decline")
+              ]),
+              _vm._v(" "),
+              _c("option", { attrs: { value: "Harmonic" } }, [
+                _vm._v("Harmonic Decline")
+              ])
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "flex flex-4" }, [
+        _c("article", [
+          _vm._v("\n            Qa (Abandonment Rate)"),
+          _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.well.pias,
-                expression: "well.pias"
+                value: _vm.well.qa,
+                expression: "well.qa"
               }
             ],
-            attrs: { placeholder: "PI(A/S)", type: "text", required: "" },
-            domProps: { value: _vm.well.pias },
+            attrs: {
+              placeholder: "Qa (Abandonment Rate)",
+              type: "text",
+              required: ""
+            },
+            domProps: { value: _vm.well.qa },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.well, "pias", $event.target.value)
+                _vm.$set(_vm.well, "qa", $event.target.value)
               }
             }
           })
         ]),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            SR(Simulation Ratio)"),
+          _vm._v("\n            Di (Decline Rate)"),
           _c("input", {
             directives: [
               {
                 name: "model",
                 rawName: "v-model",
-                value: _vm.well.sr,
-                expression: "well.sr"
+                value: _vm.well.di,
+                expression: "well.di"
               }
             ],
             attrs: {
-              placeholder: "SR(Simulation Ratio)",
+              placeholder: "Di (Decline Rate)",
               type: "text",
               required: ""
             },
-            domProps: { value: _vm.well.sr },
+            domProps: { value: _vm.well.di },
             on: {
               input: function($event) {
                 if ($event.target.composing) {
                   return
                 }
-                _vm.$set(_vm.well, "sr", $event.target.value)
+                _vm.$set(_vm.well, "di", $event.target.value)
               }
             }
           })
         ]),
         _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            a(Gravel pack linear)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.gpl,
-                expression: "well.gpl"
-              }
-            ],
-            attrs: {
-              placeholder: "a(Gravel pack linear",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.gpl },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+        _vm.well.declineType == "Hyperbolic"
+          ? _c("article", [
+              _vm._v("\n            b (Constant)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.b,
+                    expression: "well.b"
+                  }
+                ],
+                attrs: {
+                  placeholder: "b (Constant)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.b },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "b", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.well, "gpl", $event.target.value)
-              }
-            }
-          })
-        ]),
+              })
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("article", [
-          _vm._v("\n            g(Gravel pack index)"),
+          _vm._v("\n            Np (Relative Production)"),
           _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.gpi,
-                expression: "well.gpi"
-              }
-            ],
             attrs: {
-              placeholder: "g(Gravel pack index)",
+              placeholder: "Np (Relative Production)",
               type: "text",
-              required: ""
+              required: "",
+              disabled: ""
             },
-            domProps: { value: _vm.well.gpi },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "gpi", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            p(Packer index)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.pi,
-                expression: "well.pi"
-              }
-            ],
-            attrs: {
-              placeholder: "p(Packer index)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.pi },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "pi", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            d(Workover depth index)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.wdi,
-                expression: "well.wdi"
-              }
-            ],
-            attrs: {
-              placeholder: "d(Workover depth index)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.wdi },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "wdi", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            m(Mandrel index)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.mi,
-                expression: "well.mi"
-              }
-            ],
-            attrs: {
-              placeholder: "m(Mandrel index)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.mi },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "mi", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            r(Age of last re-entry)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.alr,
-                expression: "well.alr"
-              }
-            ],
-            attrs: {
-              placeholder: "r(Age of last re-entry)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.alr },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "alr", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            v(Angle of deviation)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.aod,
-                expression: "well.aod"
-              }
-            ],
-            attrs: {
-              placeholder: "v(Angle of deviation)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.aod },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "aod", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            t(Lost wireline index)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.lwi,
-                expression: "well.lwi"
-              }
-            ],
-            attrs: {
-              placeholder: "t(Lost wireline index)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.lwi },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "lwi", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            c(Casing patch index)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.cpi,
-                expression: "well.cpi"
-              }
-            ],
-            attrs: {
-              placeholder: "c(Casing patch index)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.cpi },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "cpi", $event.target.value)
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            w(Well head repair index)"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.whr,
-                expression: "well.whr"
-              }
-            ],
-            attrs: {
-              placeholder: "w(Well head repair index)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.whr },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.$set(_vm.well, "whr", $event.target.value)
-              }
-            }
+            domProps: { value: _vm.well.relProd }
           })
         ])
       ]),
@@ -2029,86 +3322,166 @@ var render = function() {
       _vm._v(" "),
       _c("h3", [_vm._v("Economic Details..")]),
       _vm._v(" "),
+      _c("article", [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.detailedCost,
+              expression: "detailedCost"
+            }
+          ],
+          attrs: { type: "checkbox", id: "detailedCost" },
+          domProps: {
+            checked: Array.isArray(_vm.detailedCost)
+              ? _vm._i(_vm.detailedCost, null) > -1
+              : _vm.detailedCost
+          },
+          on: {
+            change: function($event) {
+              var $$a = _vm.detailedCost,
+                $$el = $event.target,
+                $$c = $$el.checked ? true : false
+              if (Array.isArray($$a)) {
+                var $$v = null,
+                  $$i = _vm._i($$a, $$v)
+                if ($$el.checked) {
+                  $$i < 0 && (_vm.detailedCost = $$a.concat([$$v]))
+                } else {
+                  $$i > -1 &&
+                    (_vm.detailedCost = $$a
+                      .slice(0, $$i)
+                      .concat($$a.slice($$i + 1)))
+                }
+              } else {
+                _vm.detailedCost = $$c
+              }
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", { attrs: { for: "detailedCost" } }, [
+          _vm._v("Input Detailed Cost")
+        ])
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "flex flex-4" }, [
-        _c("article", [
-          _vm._v("\n            Special Cost"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.sc,
-                expression: "well.sc"
-              }
-            ],
-            attrs: {
-              placeholder: "SC(Special Cost)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.sc },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+        _vm.detailedCost
+          ? _c("article", [
+              _vm._v("\n            Special Cost"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.sc,
+                    expression: "well.sc"
+                  }
+                ],
+                attrs: {
+                  placeholder: "SC(Special Cost)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.sc },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "sc", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.well, "sc", $event.target.value)
-              }
-            }
-          })
-        ]),
+              })
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            Labour Cost"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.lc,
-                expression: "well.lc"
-              }
-            ],
-            attrs: {
-              placeholder: "LC(Labour Cost)",
-              type: "text",
-              required: ""
-            },
-            domProps: { value: _vm.well.lc },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+        _vm.detailedCost
+          ? _c("article", [
+              _vm._v("\n            Labour Cost"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.lc,
+                    expression: "well.lc"
+                  }
+                ],
+                attrs: {
+                  placeholder: "LC(Labour Cost)",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.lc },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "lc", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.well, "lc", $event.target.value)
-              }
-            }
-          })
-        ]),
+              })
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("article", [
-          _vm._v("\n            CAC Cost"),
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.well.cac,
-                expression: "well.cac"
-              }
-            ],
-            attrs: { placeholder: "CAC Cost", type: "text", required: "" },
-            domProps: { value: _vm.well.cac },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+        _vm.detailedCost
+          ? _c("article", [
+              _vm._v("\n            CAC Cost"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.cac,
+                    expression: "well.cac"
+                  }
+                ],
+                attrs: { placeholder: "CAC Cost", type: "text", required: "" },
+                domProps: { value: _vm.well.cac },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "cac", $event.target.value)
+                  }
                 }
-                _vm.$set(_vm.well, "cac", $event.target.value)
-              }
-            }
-          })
-        ]),
+              })
+            ])
+          : _vm._e(),
+        _vm._v(" "),
+        !_vm.detailedCost
+          ? _c("article", [
+              _vm._v("\n            Total Cost($)"),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.well.op,
+                    expression: "well.op"
+                  }
+                ],
+                attrs: {
+                  placeholder: "Total Cost",
+                  type: "text",
+                  required: ""
+                },
+                domProps: { value: _vm.well.op },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.well, "op", $event.target.value)
+                  }
+                }
+              })
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("article", [
           _vm._v("\n            Oil Price($)"),
@@ -2269,7 +3642,7 @@ var render = function() {
           i === 0 || _vm.visibilityStatus
             ? _c("article", [
                 _vm._v(
-                  "\n      Production for Month " + _vm._s(_vm.plusOne(i))
+                  "\n            Production for Month " + _vm._s(_vm.plusOne(i))
                 ),
                 _c("br"),
                 _vm._v(" "),
@@ -2321,7 +3694,7 @@ var render = function() {
         on: {
           click: function($event) {
             $event.preventDefault()
-            return _vm.toggleVisibilityStatus()
+            return _vm.toggleVisibilityStatus($event)
           }
         }
       })
@@ -2354,33 +3727,16 @@ var render = function() {
   return _c("div", [
     _c("h2", [_vm._v("Results")]),
     _vm._v(" "),
-    _c("div", [
-      _c("h4", [_vm._v("Matrix Acidizing Wells")]),
-      _vm._v(" "),
-      _vm.wellAnalyzer.manyDefectWells().length
-        ? _c("div", { staticClass: "flex flex-2" }, [
-            _c("article", [
-              _c("table", [
-                _vm._m(0),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.wellAnalyzer.manyDefectWells(), function(well, i) {
-                    return _c("tr", { key: i }, [
-                      _c("td", [_vm._v(_vm._s(well.name))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(well.defects))])
-                    ])
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _vm._m(1)
-              ])
-            ])
-          ])
-        : _c("p", [_vm._v("No Wells Present Here.")])
-    ]),
+    _c("article", {
+      staticStyle: { height: "360px", width: "100%" },
+      attrs: { id: "chartContainer" }
+    }),
+    _vm._v(" "),
+    _c("br"),
+    _c("br"),
+    _vm._v(" "),
+    _c("br"),
+    _c("br"),
     _vm._v(" "),
     _c("br"),
     _c("br"),
@@ -2390,7 +3746,7 @@ var render = function() {
         _c("h4", [_vm._v("Ranking of Well based on Technical Parameters")]),
         _vm._v(" "),
         _c("table", [
-          _vm._m(2),
+          _vm._m(0),
           _vm._v(" "),
           _c(
             "tbody",
@@ -2411,7 +3767,29 @@ var render = function() {
         _c("br")
       ]),
       _vm._v(" "),
-      _c("article", { attrs: { id: "chartContainer" } })
+      _c("article", [
+        _c("h4", [_vm._v("Matrix Acidizing Wells")]),
+        _vm._v(" "),
+        _vm.wellAnalyzer.manyDefectWells().length
+          ? _c("table", [
+              _vm._m(1),
+              _vm._v(" "),
+              _c(
+                "tbody",
+                _vm._l(_vm.wellAnalyzer.manyDefectWells(), function(well, i) {
+                  return _c("tr", { key: i }, [
+                    _c("td", [_vm._v(_vm._s(well.name))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(well.defects))])
+                  ])
+                }),
+                0
+              ),
+              _vm._v(" "),
+              _vm._m(2)
+            ])
+          : _c("p", [_vm._v("No Wells Present Here.")])
+      ])
     ]),
     _vm._v(" "),
     _c("br"),
@@ -2484,7 +3862,11 @@ var render = function() {
             _vm._v(" "),
             _vm._l(_vm.wellAnalyzer.wellRank(), function(well, i) {
               return _c("th", { key: i }, [
-                _vm._v("\n          " + _vm._s(well.name) + "\n        ")
+                _vm._v(
+                  "\n                    " +
+                    _vm._s(well.name) +
+                    "\n                "
+                )
               ])
             })
           ],
@@ -2504,7 +3886,9 @@ var render = function() {
               _vm._l(_vm.wellAnalyzer.wells, function(well, i) {
                 return _c("td", { key: i }, [
                   _vm._v(
-                    "\n          " + _vm._s(well[param.varName]) + "\n        "
+                    "\n                    " +
+                      _vm._s(well[param.varName]) +
+                      "\n                "
                   )
                 ])
               })
@@ -2528,6 +3912,18 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
+        _c("th", [_vm._v("Rank")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Well")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
         _c("th", [_vm._v("Well")]),
         _vm._v(" "),
         _c("th", [_vm._v("No. of Defects")])
@@ -2542,21 +3938,9 @@ var staticRenderFns = [
       _c("tr", [
         _c("td", { attrs: { colspan: "2" } }, [
           _vm._v(
-            "\n                The following wells are not qualified for Matrix Acidizing and\n                were taking away from the process.\n              "
+            "\n                            The following wells are not qualified for Matrix Acidizing and\n                            were taking away from the process.\n                        "
           )
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Rank")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Well")])
       ])
     ])
   },
@@ -2580,7 +3964,7 @@ var staticRenderFns = [
       _c("tr", [
         _c("td", { attrs: { colspan: "2" } }, [
           _vm._v(
-            "\n              These wells have Easy work over complexity Coiled Tubing.\n            "
+            "\n                            These wells have Easy work over complexity Coiled Tubing.\n                        "
           )
         ])
       ])
@@ -16048,15 +17432,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
-window.Event = new vue__WEBPACK_IMPORTED_MODULE_0___default.a(); // Vue.component('well-form', require('./components/WellForm.vue').default);
-// Vue.component('disabled-well', require('./components/DisabledWell.vue').default);
-// Vue.component('added-well', require('./components/AddedWell.vue').default);
-// Vue.component('month-production', require('./components/MonthProduction.vue').default);
-// app.component('well-form', require('./components/WellForm.vue').default);
-// app.component('disabled-well', require('./components/DisabledWell.vue').default);
-// app.component('added-well', require('./components/AddedWell.vue').default);
-// app.component('month-production', require('./components/MonthProduction.vue').default);
-
+window.Event = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#root',
   store: _stores_store__WEBPACK_IMPORTED_MODULE_7__["default"],
@@ -16072,43 +17448,12 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
       formCompletedStatus: false
     };
   },
-  computed: {
-    wellss: function wellss() {
-      return _stores_store__WEBPACK_IMPORTED_MODULE_7__["default"].getters.wellAnalyzer.unOrderedWells;
-    }
-  },
   methods: {
     analyzeWells: function analyzeWells() {
-      Event.$emit('formsubmitted');
       this.formCompletedStatus = true;
     }
-  },
-  mounted: function mounted() {}
-}); // window.onload = function () {
-//
-//     var chart = new CanvasJS.Chart("chartContainer", {
-//         theme: "light1", // "light2", "dark1", "dark2"
-//         animationEnabled: true, // change to true
-//         title:{
-//             text: "Well Production Gain"
-//         },
-//         data: [
-//             {
-//                 // Change type to "bar", "area", "spline", "pie",etc.
-//                 type: "column",
-//                 dataPoints: [
-//                     { label: "apple",  y: 10  },
-//                     { label: "orange", y: 15  },
-//                     { label: "banana", y: 25  },
-//                     { label: "mango",  y: 30  },
-//                     { label: "grape",  y: 28  }
-//                 ]
-//             }
-//         ]
-//     });
-//     chart.render();
-//
-// }
+  }
+});
 
 /***/ }),
 
@@ -16548,16 +17893,28 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
  */
 var Well = /*#__PURE__*/function () {
   /**
-   * Summary. Constructor Method
+   * Constructor Method
    *
-   * Description. Boots up the Well Class by assigning all it's attributes
+   * Boots up the Well Class by assigning all it's attributes
    *
    *
    * @param name
-   * @param feas
-   * @param rfac
-   * @param pias
-   * @param sr
+   * @param rt
+   * @param rr
+   * @param wbr
+   * @param fvf
+   * @param vis
+   * @param pd
+   * @param permbs
+   * @param permas
+   * @param perk
+   * @param skinbs
+   * @param skinas
+   * @param perskinas
+   * @param prbs
+   * @param declineType
+   * @param qa
+   * @param di
    * @param gpl
    * @param gpi
    * @param pi
@@ -16576,14 +17933,28 @@ var Well = /*#__PURE__*/function () {
    *
    * @return void Return value description.
    */
-  function Well(name, feas, rfac, pias, sr, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, sc, lc, cac, op, months) {
+  // constructor(name, feas, rfac, pias, sr, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, sc, lc, cac, op, months) {
+  function Well(name, rt, rr, wbr, fvf, vis, pd, permbs, permas, perk, skinbs, skinas, perskinas, prbs, declineType, qa, di, b, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, sc, lc, cac, op, months) {
     _classCallCheck(this, Well);
 
     this.name = name;
-    this.feas = feas;
-    this.rfac = rfac;
-    this.pias = pias;
-    this.sr = sr;
+    this.rt = rt;
+    this.rr = rr;
+    this.wbr = wbr;
+    this.fvf = fvf;
+    this.vis = vis;
+    this.pd = pd;
+    this.permbs = permbs;
+    this.permas = permas;
+    this.perk = perk;
+    this.skinbs = skinbs;
+    this.skinas = skinas;
+    this.perskinas = perskinas;
+    this.prbs = prbs;
+    this.declineType = declineType;
+    this.qa = qa;
+    this.di = di;
+    this.b = b;
     this.gpl = gpl;
     this.gpi = gpi;
     this.pi = pi;
@@ -16616,9 +17987,6 @@ var Well = /*#__PURE__*/function () {
     value: function hasDefects() {
       return this.defects > 0;
     }
-  }, {
-    key: "reset",
-    value: function reset() {}
   }, {
     key: "totalRev",
     get: function get() {
@@ -16655,11 +18023,9 @@ var Well = /*#__PURE__*/function () {
   }, {
     key: "defects",
     get: function get() {
-      var defects = 0;
-
-      if (this.pias < this.min_pias) {
-        defects++;
-      }
+      var defects = 0; // if (this.pias < this.min_pias) {
+      //     defects++;
+      // }
 
       if (this.feas < this.min_feas) {
         defects++;
@@ -16672,9 +18038,127 @@ var Well = /*#__PURE__*/function () {
       return defects;
     }
   }, {
+    key: "pias",
+    get: function get() {
+      var part = 0.00708 * this.permas * this.rt;
+      var part2 = this.vis * this.fvf; // alert(part2);
+
+      var part3 = 10.819 + parseFloat(this.skinas); // alert(part3);
+
+      var pias = part / (part2 * part3);
+
+      if (!isNaN(pias)) {
+        return pias.toFixed(2);
+      }
+    }
+  }, {
+    key: "pibs",
+    get: function get() {
+      var pibs = (this.prbs / this.pd).toFixed(2);
+
+      if (!isNaN(pibs)) {
+        return pibs;
+      }
+    }
+  }, {
+    key: "pideal",
+    get: function get() {
+      var pideal = (0.00708 * this.permbs * this.rt / (this.vis * this.fvf * Math.log(this.rr / this.wbr))).toFixed(2);
+
+      if (!isNaN(pideal)) {
+        return pideal;
+      }
+    }
+  }, {
+    key: "febs",
+    get: function get() {
+      var febs = this.pibs / this.pideal;
+
+      if (!isNaN(febs)) {
+        return febs.toFixed(2);
+      }
+    }
+  }, {
+    key: "pras",
+    get: function get() {
+      var pras = (0.00708 * this.permas * this.rt * this.pd / (this.vis * this.fvf * Math.log(this.rr / this.wbr))).toFixed(2);
+
+      if (!isNaN(pras)) {
+        return pras;
+      }
+    }
+  }, {
+    key: "feas",
+    get: function get() {
+      var feas = this.pias / this.pideal;
+
+      if (!isNaN(feas)) {
+        return feas.toFixed(2);
+      }
+    }
+  }, {
+    key: "pskinbs",
+    get: function get() {
+      var pskinbs = (141.2 * this.prbs * this.vis * this.fvf * this.skinbs / (this.permbs * this.rt)).toFixed(2);
+
+      if (!isNaN(pskinbs)) {
+        return pskinbs;
+      }
+    }
+  }, {
+    key: "pskinas",
+    get: function get() {
+      var pskinas = (141.2 * this.prbs * this.vis * this.fvf * this.skinas / (this.permbs * this.rt)).toFixed(2);
+
+      if (!isNaN(pskinas)) {
+        return pskinas;
+      }
+    }
+  }, {
+    key: "rfacbs",
+    get: function get() {
+      var rfacbs = (this.pskinbs / this.pd).toFixed(2);
+
+      if (!isNaN(rfacbs)) {
+        return rfacbs;
+      }
+    }
+  }, {
+    key: "rfacas",
+    get: function get() {
+      var rfacas = (this.pskinas / this.pd).toFixed(2);
+
+      if (!isNaN(rfacas)) {
+        return rfacas;
+      }
+    }
+  }, {
     key: "cof",
     get: function get() {
       return 10 * this.gpl + 9 * this.gpi + 8 * this.pi + 7 * this.wdi + 6 * this.mi + 5 * this.alr + 4 * this.aod + 3 * this.lwi + 2 * this.cpi + this.whr;
+    }
+  }, {
+    key: "relProd",
+    get: function get() {
+      var relProd;
+
+      if (this.declineType == 'Exponential') {
+        relProd = (this.pras - this.qa) / this.di;
+      }
+
+      if (this.declineType == 'Hyperbolic') {
+        relProd = Math.pow(this.pras, this.pras) / ((parseFloat(this.b) - 1) * this.di) * Math.pow(this.qa, 1 - parseFloat(this.b)) - this.pras * (1 - parseFloat(this.b));
+      }
+
+      if (this.declineType == 'Harmonic') {
+        relProd = this.pras / this.di * Math.log(this.pras / this.pras);
+      }
+
+      console.log(relProd);
+
+      if (!isNaN(relProd)) {
+        return relProd.toFixed(2);
+      }
     }
   }]);
 
@@ -16718,7 +18202,6 @@ var WellAnalyzer = /*#__PURE__*/function () {
     _classCallCheck(this, WellAnalyzer);
 
     var orderedWells = [];
-    this.unOrderedWells = unOrderedWells;
 
     var _loop = function _loop(i) {
       var highestPiasValue = unOrderedWells.reduce(function (highestWell, well) {
@@ -16765,6 +18248,26 @@ var WellAnalyzer = /*#__PURE__*/function () {
     key: "wellRank",
     value: function wellRank() {
       return this.nonDefectiveWells().concat(this.singleDefectWells(), this.manyDefectWells());
+    }
+  }, {
+    key: "chartDataPoints",
+    value: function chartDataPoints() {
+      var data = [];
+      this.wellRank().forEach(function (well) {
+        data.push({
+          label: well.name,
+          y: well.pias
+        });
+      });
+      return data;
+    }
+  }, {
+    key: "canvasChartData",
+    value: function canvasChartData() {
+      return [{
+        type: "column",
+        dataPoints: this.chartDataPoints()
+      }];
     }
   }, {
     key: "easyWorkOver",
@@ -16814,47 +18317,15 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_2___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
-    wells: [new _models_Well__WEBPACK_IMPORTED_MODULE_0__["default"]('well4', 1.69, 0.70, 10.04, 5.59, 0, 0, 0, 5, 0, 1, 1, 0, 0, 0, 5, 5, 4, 5, [{
-      'value': 54
-    }, {
-      'value': 6
-    }, {
-      'value': 66
-    }, {
-      'value': 52
-    }, {
-      'value': 55
-    }]), new _models_Well__WEBPACK_IMPORTED_MODULE_0__["default"]('well2', 3.83, 0.65, 31.82, 10.90, 0, 0, 0, 5, 0, 2, 1, 0, 0, 0, 5, 5, 4, 5, [{
-      'value': 54
-    }, {
-      'value': 6
-    }, {
-      'value': 66
-    }, {
-      'value': 52
-    }, {
-      'value': 55
-    }]), new _models_Well__WEBPACK_IMPORTED_MODULE_0__["default"]('well3', 3.91, 0.59, 16.12, 9.49, 0, 0, 0, 5, 6, 0, 1, 1, 0, 0, 5, 5, 4, 5, [{
-      'value': 54
-    }, {
-      'value': 6
-    }, {
-      'value': 66
-    }, {
-      'value': 52
-    }, {
-      'value': 55
-    }]), new _models_Well__WEBPACK_IMPORTED_MODULE_0__["default"]('well1', 7.13, 0.62, 88.26, 19.00, 0, 0, 0, 4, 6, 0, 1, 0, 0, 0, 4, 5, 3, 4, [{
-      'value': 54
-    }, {
-      'value': 6
-    }, {
-      'value': 66
-    }, {
-      'value': 52
-    }, {
-      'value': 55
-    }])]
+    wells: [// new Well("Well 1", 55, 1500, 0.03, 1.47, 0.37, 473.5, 187, 964, 415.51, 18, -3, 44, 2200, "Exponential", 50, 70, 12, 0, 0, 0, 5, 0, 1, 1, 0, 0, 0, 5,5,4,5, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+      // new Well("Well 2", 41, 1500, 0.03, 1.14, 0.3, 202.8, 106, 418, 415.51, 20, 0.33, 44, 592, "Exponential", 50, 70, 12, 0, 0, 0, 5, 0, 2, 1, 0, 0, 0, 5,5,4,5, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+      // new Well("Well 3", 50, 1500, 0.03, 1.72, 0.3, 583.5, 65, 262, 415.51, 15.4, 0.33, 44, 991, "Exponential", 50, 70, 12, 0, 0, 0, 5, 6, 0, 1, 1, 0, 0, 5,5,4,5, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+      // new Well("Well 4", 30, 1500, 0.03, 1.4, 0.385, 241.3, 110, 165, 415.51, 13.2, 2, 44, 825, "Exponential", 50, 70, 12, 0, 0, 0, 4, 6, 0, 1, 0, 0, 0, 4,5,3,4, [{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+      // new Well( 'well4',1.69, 0.70, 10.04, 5.59, 0, 0, 0, 5, 0, 1, 1, 0, 0, 0, 5,5,4,5,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+      // new Well( 'well2',3.83, 0.65, 31.82, 10.90, 0, 0, 0, 5, 0, 2, 1, 0, 0, 0, 5,5,4,5,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+      // new Well( 'well3',3.91, 0.59, 16.12, 9.49, 0, 0, 0, 5, 6, 0, 1, 1, 0, 0, 5,5,4,5,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+      // new Well( 'well1',7.13, 0.62, 88.26, 19.00, 0, 0, 0, 4, 6, 0, 1, 0, 0, 0, 4,5,3,4,[{'value': 54},{'value': 6},{'value': 66},{'value': 52},{'value': 55}]),
+    ]
   },
   mutations: {
     addToWell: function addToWell(state, well) {
@@ -16879,7 +18350,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/fred/Desktop/Codz/Projects/Frontend/vlessfriend/src/js/app.js */"./src/js/app.js");
+module.exports = __webpack_require__(/*! /home/okerefe/juilet/src/js/app.js */"./src/js/app.js");
 
 
 /***/ })

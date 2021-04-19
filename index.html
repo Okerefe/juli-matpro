@@ -55,7 +55,8 @@
 						<input type="button" value="Analyze Wells" v-on:click.prevent="analyzeWells()"/>
 					</div>
 
-					<well-results></well-results>
+					<well-results v-if="formCompletedStatus"></well-results>
+<!--					<well-results></well-results>-->
 
 				</div>
 			</section>
@@ -89,7 +90,7 @@
 
 		<script src="https://canvasjs.com/assets/script/canvasjs.min.js"> </script>
 			<script src="assets/js/app.js"></script>
-			<!--<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>-->
+			<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <!--			<script src="assets/js/juli-matpro-main_2.js"></script>-->
 
 	</body>

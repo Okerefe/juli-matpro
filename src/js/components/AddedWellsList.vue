@@ -13,6 +13,7 @@
 
         data() {
             return {
+
             }
         },
 
@@ -26,13 +27,11 @@
               return store.getters.wells;
           }
         },
+
         methods: {
             plusOne(num) {
               return ++num;
             },
         },
-
-        created() {
-        }
     }
 </script>

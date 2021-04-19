@@ -20,16 +20,14 @@ describe ('WellAnalyzer', () => {
         expect(wellAnalyzer.wells[1].pias).to.equal(31.82);
         expect(wellAnalyzer.wells[2].pias).to.equal(16.12);
         expect(wellAnalyzer.wells[3].pias).to.equal(10.04);
-
     });
 
-    it('Returns a valid list of Non Defective Wells', () => {
+    it('Returns a valid list of Non Defective Wells', () =>     {
         let nonDefective = wellAnalyzer.nonDefectiveWells();
         expect(nonDefective[0].pias).to.equal(88.26);
         expect(nonDefective[1].pias).to.equal(31.82);
         expect(nonDefective[2].pias).to.equal(10.04);
         expect(nonDefective.length).to.equal(3);
-
     });
 
     it('Returns a valid list of Single Defect Wells', () => {
@@ -52,6 +50,5 @@ describe ('WellAnalyzer', () => {
 
         expect(wellRank.length).to.equal(4);
     });
-
 
 });

@@ -50,14 +50,11 @@
 
 <script>
 
-    // import constants from "../Constants";
-
     export default {
         props:  ['well', 'i'],
 
         data() {
             return {
-                    // wells: constants.wells
             }
         },
 
