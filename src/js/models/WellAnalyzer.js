@@ -16,13 +16,13 @@ export default class WellAnalyzer {
         let orderedWells = [];
 
         for (let i = 0; unOrderedWells.length > 0; i++) {
-            let highestPiasValue = unOrderedWells.reduce(function (highestWell, well) {
-                return (highestWell.pias || 0) >= well.pias ? highestWell : well;
+            let highestPibsValue = unOrderedWells.reduce(function (highestWell, well) {
+                return (highestWell.pibs || 0) >= well.pibs ? highestWell : well;
             }, {});
 
-            orderedWells.push(highestPiasValue);
-            const highestPias = (element) => element.pias === highestPiasValue.pias;
-            unOrderedWells.splice(unOrderedWells.findIndex(highestPias), 1); //the problem is coming from here splicing the array will mess with it at the store, but it works now bcos i  deep copy it first
+            orderedWells.push(highestPibsValue);
+            const highestPibs = (element) => element.pibs === highestPibsValue.pibs;
+            unOrderedWells.splice(unOrderedWells.findIndex(highestPibs), 1); //the problem is coming from here splicing the array will mess with it at the store, but it works now bcos i  deep copy it first
         }
 
         this.wells = orderedWells;
@@ -51,7 +51,7 @@ export default class WellAnalyzer {
         let data = [];
         this.wellRank().forEach((well) =>{
             data.push({
-                label: well.name, y : well.pias
+                label: well.name, y : well.pibs
             });
         });
         return data;

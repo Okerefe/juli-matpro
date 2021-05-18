@@ -2,7 +2,6 @@
  * Well Class
  *
  */
-
 export default class Well {
 
 
@@ -29,6 +28,8 @@ export default class Well {
      * @param declineType
      * @param qa
      * @param di
+     * @param b
+     * @param workOverComplex
      * @param gpl
      * @param gpi
      * @param pi
@@ -39,7 +40,9 @@ export default class Well {
      * @param lwi
      * @param cpi
      * @param whr
-     * @param sc
+     * @param ic
+     * @param yearlyOperateCost
+     * @param npvs
      * @param lc
      * @param cac
      * @param op
@@ -48,7 +51,7 @@ export default class Well {
      * @return void Return value description.
      */
     // constructor(name, feas, rfac, pias, sr, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, sc, lc, cac, op, months) {
-    constructor(name, rt, rr, wbr, fvf, vis, pd, permbs, permas, perk, skinbs, skinas, perskinas, prbs, declineType, qa, di, b, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, sc, lc, cac, op, months) {
+    constructor(name, rt, rr, wbr, fvf, vis, pd, permbs, permas, perk, skinbs, skinas, perskinas, prbs, declineType, qa, di, b, workOverComplex, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, ic, yearlyOperateCost, npvs, lc, cac, op, months) {
         this.name = name;
         this.rt = rt;
         this.rr = rr;
@@ -67,6 +70,7 @@ export default class Well {
         this.qa = qa;
         this.di = di;
         this.b = b;
+        this.workOverComplex = workOverComplex;
         this.gpl = gpl;
         this.gpi = gpi;
         this.pi = pi;
@@ -77,20 +81,30 @@ export default class Well {
         this.lwi = lwi;
         this.cpi = cpi;
         this.whr = whr;
-        this.sc = sc;
+        this.ic = ic;
+        this.yearlyOperateCost = yearlyOperateCost;
+        this.npvs = npvs;
         this.lc = lc;
         this.cac = cac;
         this.op = op;
         this.months = months;
-
-        // Define Static Properties of The Well Instance
-        this.min_pias = 10;
-        this.min_feas = 1;
-        this.max_rfac = 0.6;
-        this.min_defects = 1;
-
     }
 
+    get min_pibs() {
+        return 10;
+    }
+
+    get min_febs() {
+        return 1;
+    }
+
+    get max_rfacbs() {
+        return 0.6;
+    }
+
+    get min_defects() {
+        return 1;
+    }
 
     get totalRev() {
         let totalProduction = this.months.reduce(function (total, month) {
@@ -115,111 +129,84 @@ export default class Well {
         return 'NaN';
     }
 
-    get npv() {
-        return 'NaN';
-    }
-
     get defects() {
         let defects = 0;
-        // if (this.pias < this.min_pias) {
-        //     defects++;
-        // }
-        if (this.feas < this.min_feas) {
-            defects++;
-        }
-        if (this.rfac < this.max_rfac) {
-            defects++;
-        }
+        if (this.febs > this.min_febs) { defects++; }
+        if (this.rfacbs < this.max_rfacbs) { defects++; }
+        if (this.pibs > this.min_pibs) { defects++; }
         return defects;
     }
 
-
     get pias() {
-        let part = (0.00708 * this.permas * this.rt);
-        let part2 = this.vis  * this.fvf;
-        // alert(part2);
-        let part3 = 10.819 + parseFloat(this.skinas);
-        // alert(part3);
-        let pias = part/ (part2 * part3);
-        if(!isNaN(pias)) {
-            return pias.toFixed(2);
-        }
+        let module1 = (0.00708 * this.permas * this.rt);
+        let module2 = this.vis  * this.fvf;
+        let module3 = 10.819 + parseFloat(this.skinas);
+        let pias = module1/ (module2 * module3);
+        return (!isNaN(pias)) ? pias.toFixed(4) : '';
     }
 
     get pibs() {
-        let pibs = (this.prbs/ this.pd).toFixed(2);
-        if(!isNaN(pibs)) {
-            return pibs;
-        }
+        let pibs = (this.prbs/ this.pd).toFixed(4);
+        return (!isNaN(pibs)) ? pibs : '';
     }
 
     get pideal() {
-        let pideal = ((0.00708 * this.permbs * this.rt) / (this.vis * this.fvf * Math.log((this.rr/this.wbr)))).toFixed(2);
-        if(!isNaN(pideal)) {
-            return pideal;
-        }
+        let module1 = (0.00708 * this.permbs * this.rt);
+        let module2 = (this.vis * this.fvf * Math.log((this.rr/this.wbr)));
+        let pideal = (module1 / module2).toFixed(4);
+        return (!isNaN(pideal)) ? pideal : '';
     }
 
     get febs() {
-        let febs = (this.pibs/this.pideal).toFixed(2);
-        if(!isNaN(febs)) {
-            return febs;
-        }
+        let febs = (this.pibs/this.pideal).toFixed(4);
+        return (!isNaN(febs)) ? febs : '';
     }
 
     get pras() {
-        let pras = (0.00708 * this.permas * this.rt * this.pd/ (this.vis * this.fvf * Math.log((this.rr/this.wbr)))).toFixed(2);
-        if(!isNaN(pras)) {
-            return pras;
-        }
+        let module1 = (0.00708 * this.permas * this.rt * this.pd);
+        let module2 = (Math.log((this.rr/this.wbr))  + parseFloat(this.skinas));
+        let module3 = (this.vis * this.fvf * module2);
+        let pras = (module1 / module3).toFixed(4);
+        return (!isNaN(pras)) ? pras : '';
     }
 
     get feas() {
-        let feas = (this.pias/this.pideal).toFixed(2);
-        if(!isNaN(feas)) {
-            return feas;
-        }
+        let feas = (this.pias/this.pideal).toFixed(4);
+        return (!isNaN(feas)) ? feas : '';
     }
 
     get pskinbs() {
-        let pskinbs = ((141.2 * this.prbs * this.vis * this.fvf * this.skinbs) / (this.permbs * this.rt)).toFixed(2);
-        if(!isNaN(pskinbs)) {
-            return pskinbs;
-        }
+        let module1 = (141.2 * this.prbs * this.vis * this.fvf * this.skinbs);
+        let module2 = (this.permbs * this.rt)
+        let pskinbs = ( module1 / module2).toFixed(4);
+        return (!isNaN(pskinbs)) ? pskinbs : '';
     }
 
     get pskinas() {
-        let pskinas = ((141.2 * this.prbs * this.vis * this.fvf * this.skinas) / (this.permbs * this.rt)).toFixed(2);
-        if(!isNaN(pskinas)) {
-            return pskinas;
-        }
+        let module1 = (141.2 * this.prbs * this.vis * this.fvf * this.skinas);
+        let module2 = (this.permbs * this.rt);
+        let pskinas = ( module1 / module2).toFixed(4);
+        return (!isNaN(pskinas)) ? pskinas : '';
     }
 
     get rfacbs() {
-        let rfacbs = (this.pskinbs / this.pd).toFixed(2);
-        if(!isNaN(rfacbs)) {
-            return rfacbs;
-        }
+        let rfacbs = (this.pskinbs / this.pd).toFixed(4);
+        return (!isNaN(rfacbs)) ? rfacbs : '';
     }
 
     get rfacas() {
-        let rfacas = (this.pskinas / this.pd).toFixed(2);
-        if(!isNaN(rfacas)) {
-            return rfacas;
-        }
+        let rfacas = (this.pskinas / this.pd).toFixed(4);
+        return (!isNaN(rfacas)) ? rfacas : '';
     }
 
     get febs() {
         let febs = this.pibs / this.pideal;
-        if(!isNaN(febs)) {
-            return febs.toFixed(2);
-        }
+        return (!isNaN(febs)) ? febs : '';
     }
+
     get feas() {
         let feas = this.pias / this.pideal;
-        if(!isNaN(feas)) {
-            return feas.toFixed(2);
-        }
+        return (!isNaN(feas)) ? feas : '';
     }
 
     get cof() {
@@ -242,20 +229,69 @@ export default class Well {
         }
 
         if(this.declineType == 'Hyperbolic') {
-            relProd = (Math.pow(this.pras, this.pras) / (((parseFloat(this.b) - 1)) * this.di)) * Math.pow(this.qa, (1-(parseFloat(this.b)))) - (this.pras * (1- (parseFloat(this.b))))
+            let module1 = (Math.pow(this.pras, this.pras) / (((parseFloat(this.b) - 1)) * this.di));
+            let module2 = Math.pow(this.qa, (1-(parseFloat(this.b))));
+            let module3 = (this.pras * (1- (parseFloat(this.b))));
+            relProd = module1 * module2 - module3;
         }
 
         if(this.declineType == 'Harmonic') {
             relProd = (this.pras /this.di)  * Math.log(this.pras/ this.pras);
         }
 
-        console.log(relProd);
-        if(!isNaN(relProd)) {
-            return relProd.toFixed(2);
-        }
-
-
+        return (!isNaN(relProd)) ? relProd : '';
     }
+
+    get timeAbandon() {
+        let timeAbandon = ((1 / this.di) * (Math.log(this.pras / this.qa))) / 365;
+        return (!isNaN(timeAbandon)) ? timeAbandon : '';
+    }
+
+    get prodProfile() {
+        let prodProfile = [];
+        let noOfProfile = Math.ceil(this.timeAbandon);
+        let prevProdRate = 0;
+        for(let i=0; i <= noOfProfile; i++) {
+
+            let time = (i == noOfProfile) ? this.timeAbandon : i;
+
+            let prodRateReal = (this.pras * Math.exp(-1 * this.di * 365 * time)).toFixed(4);
+            let prodRateValue = (!isNaN(prodRateReal)) ? prodRateReal : '';
+            let prodRate = (i == 0) ? this.pras : prodRateValue;
+
+            let productionReal = ((prevProdRate - prodRate)/this.di).toFixed(4);
+            let productionValue = (!isNaN(productionReal)) ? productionReal : '';
+            let production = (i == 0) ? 0 : productionValue;
+
+            let revenueValue = (production * this.op).toFixed(4);
+            let revenue = (!isNaN(revenueValue)) ? revenueValue : '';
+            let ncfValue = (i == 0) ? (-1 * this.ic) : (revenue - this.yearlyOperateCost[i]).toFixed(4);
+            let ncf = (!isNaN(ncfValue)) ? ncfValue : '';
+
+            prevProdRate = prodRate;
+            prodProfile.push({'time' : time, 'prodRate' : prodRate, 'production' : production, 'revenue' : revenue, 'ncf' : ncf, })
+        }
+        return prodProfile;
+    }
+
+    npvValue(i, npv) {
+        let module1 = this.prodProfile[i].ncf;
+        let module2 = (1 + (npv.value/100));
+        let module3 = this.prodProfile[i].time;
+        let npvValue = (module1/ Math.pow(module2, module3)).toFixed(4);
+        return (!isNaN(npvValue)) ? npvValue : '';
+    }
+
+    totalNpvValue(npv) {
+        let value = 0;
+        for (let i = 0; i < this.prodProfile.length; i++) {
+            let npvPres = this.npvValue(i, npv);
+            console.log(npvPres);
+            value += parseInt(npvPres);
+        }
+        return (!isNaN(value)) ? value : '';
+    }
+
     isQualified() {
         return this.defects <= this.min_defects;
     }
@@ -263,5 +299,4 @@ export default class Well {
     hasDefects() {
         return this.defects > 0;
     }
-
 }
