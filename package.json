@@ -29,8 +29,11 @@
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
     "@babel/register": "^7.12.10",
+    "chartist": "^0.11.4",
+    "chartist-plugin-axistitle": "0.0.7",
     "expect": "^26.6.2",
     "mocha-webpack": "^1.1.0",
-    "sinon": "^9.2.3"
+    "sinon": "^9.2.3",
+    "v-chartist": "^0.1.6"
   }
 }

@@ -1,15 +1,15 @@
 <template>
 <div>
-    <h4 style="color: #000000;">Technical Parameters</h4>
+    <h4>Technical Parameters..</h4>
     <div class="flex flex-4">
         <article>
-            PI(B/S)<input :value="well.pibs" type="text" required disabled/>
+            PI(B/S) (bbl/d/psi)<input :value="well.pibs" type="text" required disabled/>
         </article>
         <article>
-            PI(A/S)<input :value="well.pias" type="text" required disabled/>
+            PI(A/S) (bbl/d/psi)<input :value="well.pias" type="text" required disabled/>
         </article>
         <article>
-            PI Ideal<input :value="well.pideal" type="text" required disabled/>
+            PI Ideal (bbl/d/psi)<input :value="well.pideal" type="text" required disabled/>
         </article>
         <article>
             FE(B/S)<input :value="well.febs" type="text" required disabled/>
@@ -22,10 +22,10 @@
                                                required disabled/>
         </article>
         <article>
-            ΔP Skin (B/S)<input :value="well.pskinbs" type="text" required disabled/>
+            ΔP Skin (B/S)(psi)<input :value="well.pskinbs" type="text" required disabled/>
         </article>
         <article>
-            ΔP Skin (A/S)<input :value="well.pskinas" type="text" required disabled/>
+            ΔP Skin (A/S)(psi)<input :value="well.pskinas" type="text" required disabled/>
         </article>
         <article>
             R-Factor (B/S)<input :value="well.rfacbs" type="text" required disabled/>
@@ -33,15 +33,19 @@
         <article>
             R-Factor (A/S)<input :value="well.rfacas" type="text" required disabled/>
         </article>
-
     </div>
+    <br/>
+    <br/>
+    <hr/>
+    <br/>
 </div>
 </template>
 <script>
     export default {
         name: 'technical-parameters',
         props: {
-            well: {}
+            well: {},
+            disabled: {},
         }
     }
 </script>

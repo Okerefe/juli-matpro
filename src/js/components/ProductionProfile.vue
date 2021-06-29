@@ -1,14 +1,16 @@
 <template>
     <div class="row" style="overflow: auto;">
-        <h3>Production Profile</h3>
+        <h4>Production Profile..</h4>
         <table>
             <thead>
             <tr>
                 <th>Time (Yrs)</th>
                 <th>Production Rate (bbl/d)</th>
                 <th>Production (bbl)</th>
-                <th>Yearly Operating Cost ($)</th>
-                <th>Yearly Revenue ($)</th>
+                <th>Gross Revenue ($)</th>
+                <th>Operating Cost ($)</th>
+                <th>Taxes ($)</th>
+                <th>Royalties ($)</th>
                 <th>NCF ($)</th>
 
                 <th v-for="(npv, i) in well.npvs" :key = "i">NPV ({{ npv.value }}%)</th>
@@ -16,20 +18,25 @@
             </thead>
             <tbody>
             <tr v-for="(profile, i) in well.prodProfile" :key = "i">
-                <td>Year {{ profile.time }}</td>
-                <td>{{ profile.prodRate }}</td>
-                <td>{{ profile.production }}</td>
-                <td style="min-width: 140px;">
+                <td>Year {{ commas(profile.time) }}</td>
+                <td>{{ commas(profile.prodRate) }}</td>
+                <td>{{ commas(profile.production) }}</td>
+                <td>{{ commas(profile.revenue) }}</td>
+                <td v-if="well.costType == 'percent'"> {{ commas(profile.operate) }}</td>
+                <td style="min-width: 140px;" v-else>
                     <input
                         type="text"
                         :ref="'operateCost_' + 'i'"
                         :placeholder="'Year ' + profile.time"
                         :value="operateCostValue(i)"
                         @input="saveOperateCost(i, $event)"
-                        required/>
+                        :disabled="disabled"
+                        required />
                 </td>
-                <td>{{ profile.revenue }}</td>
-                 <td>{{ profile.ncf }}</td>
+                <td>{{ commas(profile.tax) }}</td>
+                <td>{{ commas(profile.royal) }}</td>
+                <td>{{ commas(profile.ncf) }}</td>
+
 <!--                <td>{{ // well.prodProfile[i].ncf }}</td>-->
 
 <!--                Each of the <td> Below represents Each NPV for Each Column-->
@@ -38,19 +45,30 @@
 <!--                <td v-for="(npv, b) in well.npvs" :key = "b">{{ well.npvValue(i, npv) }}</td>-->
             </tr>
             <tr>
-                <td style="font-weight: bolder;"><p style="margin: 0; padding: 0;font-weight: bolder;">Total NPV</p></td>
+                <td style="font-weight: bolder;"><p style="margin: 0; padding: 0;font-weight: bolder;">Total </p></td>
+                <td></td>
+                <td></td>
+                <td style="font-weight: bolder;">
+                    <p style="margin: 0; padding: 0;font-weight: bolder;">{{ commas(well.totalGrossValue()) }}</p>
+                </td>
                 <td></td>
                 <td></td>
                 <td></td>
-                <td></td>
-                <td></td>
+                <td style="font-weight: bolder;">
+                    <p style="margin: 0; padding: 0;font-weight: bolder;">{{ commas(well.totalNcfValue()) }}</p>
+                </td>
+
                 <td style="font-weight: bolder;" v-for="(npv, c) in well.npvs" :key = "c">
-                    <p style="margin: 0; padding: 0;font-weight: bolder;">{{ well.totalNpvValue(npv) }}</p></td>
+                    <p style="margin: 0; padding: 0;font-weight: bolder;">{{ commas(well.totalNpvValue(npv)) }}</p></td>
             </tr>
             </tbody>
         </table>
+        <br/>
+        <br/>
+        <br/>
+        <hr/>
+        <br/>
     </div>
-
 </template>
 
 <script>
@@ -62,7 +80,7 @@
             'npv-value': NpvValue,
         },
 
-        props: ["well"],
+        props: ["well", "disabled"],
 
         data() {
             return {
@@ -75,6 +93,7 @@
             saveOperateCost(i, event) {
                 this.well.yearlyOperateCost[i] = event.target.value;
                 this.npvValueKey++;
+                this.well.updateChart++;
                 // Event.$emit('operateCost', i, event.target.value);
                 // let el = 'operateCost_'+ i;
                 // this.$refs[el].$el.focus();
@@ -100,6 +119,10 @@
 
             operateCostValue(i) {
                 return this.well.yearlyOperateCost[i];
+            },
+            commas(n) {
+                var parts=n.toString().split(".");
+                return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
             }
         },
     };

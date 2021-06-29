@@ -46,12 +46,17 @@ export default class Well {
      * @param lc
      * @param cac
      * @param op
+     * @param updateChart
+     * @param tax
+     * @param royal
+     * @param operate
+     * @param costType
      * @param months
      *
      * @return void Return value description.
      */
     // constructor(name, feas, rfac, pias, sr, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, sc, lc, cac, op, months) {
-    constructor(name, rt, rr, wbr, fvf, vis, pd, permbs, permas, perk, skinbs, skinas, perskinas, prbs, declineType, qa, di, b, workOverComplex, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, ic, yearlyOperateCost, npvs, lc, cac, op, months) {
+    constructor(name, rt, rr, wbr, fvf, vis, pd, permbs, permas, perk, skinbs, skinas, perskinas, prbs, declineType, qa, di, b, workOverComplex, gpl, gpi, pi, wdi, mi, alr, aod, lwi, cpi, whr, ic, yearlyOperateCost, npvs, lc, cac, op, updateChart, tax, royal, operate, costType, profileUpdate, months) {
         this.name = name;
         this.rt = rt;
         this.rr = rr;
@@ -87,6 +92,12 @@ export default class Well {
         this.lc = lc;
         this.cac = cac;
         this.op = op;
+        this.updateChart = updateChart;
+        this.tax = tax;
+        this.royal = royal;
+        this.operate = operate;
+        this.costType = costType;
+        this.profileUpdate = profileUpdate;
         this.months = months;
     }
 
@@ -107,22 +118,27 @@ export default class Well {
     }
 
     get totalRev() {
-        let totalProduction = this.months.reduce(function (total, month) {
-            return total + month.value;
-        }, 0);
-        return (totalProduction * this.op);
+        return this.commas(this.totalGrossValue());
     }
 
     get totalCost() {
-        return (this.sc + this.lc + this.cac);
+        // return (this.sc + this.lc + this.cac);
     }
 
     get payBackPeriod() {
-        return 'NaN';
+        return ((this.ic/this.totalGrossValue()) * 12).toFixed(4);
     }
 
     get profitIndex() {
-        return 'NaN';
+        return (this.totalNpvValue({'value': 10}) / this.ic).toFixed(4);
+    }
+
+    get npvTens(){
+        return this.totalNpvValue({'value': 10});
+    }
+
+    get npvTensComma(){
+        return this.commas(this.totalNpvValue({'value': 10}));
     }
 
     get investReturn() {
@@ -199,16 +215,6 @@ export default class Well {
         return (!isNaN(rfacas)) ? rfacas : '';
     }
 
-    get febs() {
-        let febs = this.pibs / this.pideal;
-        return (!isNaN(febs)) ? febs : '';
-    }
-
-    get feas() {
-        let feas = this.pias / this.pideal;
-        return (!isNaN(feas)) ? feas : '';
-    }
-
     get cof() {
         return ((10 * this.gpl)
             + (9 * this.gpi)
@@ -225,53 +231,223 @@ export default class Well {
     get relProd() {
         let relProd;
         if(this.declineType == 'Exponential') {
-            relProd = (this.pras - this.qa)/this.di;
+            relProd = ((this.pras - this.qa)/this.di).toFixed(4);
         }
 
         if(this.declineType == 'Hyperbolic') {
             let module1 = (Math.pow(this.pras, this.pras) / (((parseFloat(this.b) - 1)) * this.di));
             let module2 = Math.pow(this.qa, (1-(parseFloat(this.b))));
             let module3 = (this.pras * (1- (parseFloat(this.b))));
-            relProd = module1 * module2 - module3;
+            relProd = (module1 * module2 - module3).toFixed(4);
         }
 
         if(this.declineType == 'Harmonic') {
-            relProd = (this.pras /this.di)  * Math.log(this.pras/ this.pras);
+            relProd = ((this.pras /this.di)  * Math.log(this.pras/ this.pras)).toFixed(4);
         }
 
         return (!isNaN(relProd)) ? relProd : '';
     }
 
     get timeAbandon() {
-        let timeAbandon = ((1 / this.di) * (Math.log(this.pras / this.qa))) / 365;
+        let timeAbandon;
+        if( this.di > 0) {
+            timeAbandon = (((1 / this.di) * (Math.log(this.pras / this.qa))) / 365).toFixed(4);
+        }
         return (!isNaN(timeAbandon)) ? timeAbandon : '';
+    }
+
+    get irrUpdate() {
+       return this.updateChart + this.operate + this.tax + this.ic + this.op + this.royal + this.costType;
     }
 
     get prodProfile() {
         let prodProfile = [];
         let noOfProfile = Math.ceil(this.timeAbandon);
         let prevProdRate = 0;
-        for(let i=0; i <= noOfProfile; i++) {
+        if(this.di > 0) {
+            for(let i=0; i <= noOfProfile; i++) {
 
-            let time = (i == noOfProfile) ? this.timeAbandon : i;
+                let time = (i == noOfProfile) ? this.timeAbandon : i;
 
-            let prodRateReal = (this.pras * Math.exp(-1 * this.di * 365 * time)).toFixed(4);
-            let prodRateValue = (!isNaN(prodRateReal)) ? prodRateReal : '';
-            let prodRate = (i == 0) ? this.pras : prodRateValue;
+                let prodRateReal = (this.pras * Math.exp(-1 * this.di * 365 * time)).toFixed(4);
+                let prodRateValue = (!isNaN(prodRateReal)) ? prodRateReal : '';
+                let prodRate = (i == 0) ? this.pras : prodRateValue;
 
-            let productionReal = ((prevProdRate - prodRate)/this.di).toFixed(4);
-            let productionValue = (!isNaN(productionReal)) ? productionReal : '';
-            let production = (i == 0) ? 0 : productionValue;
+                let productionReal = ((prevProdRate - prodRate)/this.di).toFixed(4);
+                let productionValue = (!isNaN(productionReal)) ? productionReal : '';
+                let production = (i == 0) ? 0 : productionValue;
 
-            let revenueValue = (production * this.op).toFixed(4);
-            let revenue = (!isNaN(revenueValue)) ? revenueValue : '';
-            let ncfValue = (i == 0) ? (-1 * this.ic) : (revenue - this.yearlyOperateCost[i]).toFixed(4);
-            let ncf = (!isNaN(ncfValue)) ? ncfValue : '';
+                let revenueValue = (production * this.op).toFixed(4);
+                let revenue = (!isNaN(revenueValue)) ? revenueValue : '';
 
-            prevProdRate = prodRate;
-            prodProfile.push({'time' : time, 'prodRate' : prodRate, 'production' : production, 'revenue' : revenue, 'ncf' : ncf, })
+
+                //
+                let tax = (!isNaN(revenueValue)) ? (this.tax * revenue / 100).toFixed(4) : '';
+                let royal = (!isNaN(revenueValue)) ? (this.royal * revenue / 100).toFixed(4) : '';
+                let operate = (!isNaN(revenueValue)) ? (this.operate * revenue / 100).toFixed(4) : '';
+                // let royal = (this.royal * revenue / 100).toFixed(4);
+
+                let ncf;
+                if (this.costType == 'percent') {
+                    let add1 = (!isNaN(operate)) ? parseInt(operate) : 0;
+                    let add2 = (!isNaN(tax)) ? parseInt(tax) : 0;
+                    let add3 = (!isNaN(royal)) ? parseInt(royal) : 0;
+                    // let minus = (add1 + add2 + add3);
+                    let minus = (add1 + add2 + add3);
+                    // console.log('minus'+ minus);
+                    let ncfValue = (i == 0) ? (-1 * this.ic) : (revenue - minus).toFixed(4);
+                    ncf = (!isNaN(ncfValue)) ? ncfValue : '';
+                } else {
+                    let add1 = (!isNaN(operate)) ? parseInt(operate) : 0;
+                    let add2 = (!isNaN(tax)) ? parseInt(tax) : 0;
+                    let add3 = (!isNaN(royal)) ? parseInt(royal) : 0;
+
+                    let minus = (add1 + add2 + add3);
+                    // console.log('minus'+ minus);
+                    let ncfValue = (i == 0) ? (-1 * this.ic) : (revenue - minus).toFixed(4);
+                    ncf = (!isNaN(ncfValue)) ? ncfValue : '';
+                }
+
+
+                prevProdRate = prodRate;
+                // prodProfile.push({'time' : time, 'prodRate' : prodRate, 'production' : production, 'revenue' : revenue, 'ncf' : ncf})
+                prodProfile.push({'time' : time, 'prodRate' : prodRate, 'production' : production, 'revenue' : revenue, 'ncf' : ncf, 'tax' : tax, 'royal': royal, 'operate' : operate})
+            }
         }
         return prodProfile;
+    }
+    commas(n) {
+        var parts=n.toString().split(".");
+        return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+    }
+
+    interpolate() {
+
+        let arr = [];
+        let last = (this.npvs.length - 1)
+        // console.log('arrlennnnn' + arr.length);
+
+        this.npvs.forEach((npv) =>{
+        });
+
+        // console.log('last' + last);
+
+        if(last !== -1){
+            for(let i = 1; i < parseInt(npvs[last].value); i+=10) {
+                arr.push(null);
+            }
+
+            let lastTotalNpvValue = this.totalNpvValue(this.npvs[last]);
+            // console.log('lastvalue' + lastTotalNpvValue);
+            arr.push(lastTotalNpvValue);
+
+            let currentAddition = 10;
+            let lo = 0;
+            // for (
+            //     let nextTotalNpv = this.totalNpvValue({'value': (parseInt(this.npvs[last].value) + currentAddition)});
+            //     nextTotalNpv > 1;
+            //     currentAddition+=10
+            // ) {
+            //     arr.push(nextTotalNpv);
+            // }
+            while(true) {
+                let value = parseInt(this.npvs[last].value) + currentAddition;
+                let nextTotalNpv = this.totalNpvValue({'value': value})
+                currentAddition +=10;
+                lo++;
+                arr.push(nextTotalNpv);
+                // console.log('nextttt>>>>>>>>>: ' + nextTotalNpv);
+                if(lo == 500 || nextTotalNpv < 1) {
+                    // console.log('loooooo' + lo)
+                    break;
+                }
+            }
+        }
+
+        // while ()
+
+        return arr;
+    }
+
+
+    containsNpv(npvs, contains) {
+        console.log(contains);
+        let value = false;
+        npvs.forEach((npv) =>{
+            if(npv.value == contains) {
+                value = true;
+            }
+        });
+        return value;
+
+    }
+    seriesPlot() {
+        let seriesData = []
+        // let npvs = [...this.npvs];
+        //
+        // while(npvs.length > 0) {
+        for(let i = 0; i < 120; i+=10) {
+            seriesData.push(this.totalNpvValue({'value': i}))
+
+            // if(this.containsNpv(this.npvs, i)) {
+            //     seriesData.push(this.totalNpvValue({'value': i}))
+            // } else {
+            //     seriesData.push(null);
+            // }
+        }
+
+        // console.log('series....>>' + seriesData);
+        return seriesData;
+        // this.npvs.forEach((npv) =>{
+        //     seriesData.push(this.totalNpvValue(npv));
+        // });
+        //
+        // // console.log('seriesData');
+        // // console.log([seriesData]);
+        //
+        // let extra = this.interpolate();
+        // return [seriesData, extra];
+
+    }
+
+    labelsPlot() {
+
+        // // console.log('interpolate' + this.interpolate())
+        // let totalLabel = (this.npvs.length + this.interpolate().length - 1);
+        // console.log('totallabell>' + totalLabel);
+        // let tens = 0;
+        // for(let i = 1; i<= totalLabel; i++) {
+        //     tens++;
+        //     if(tens == 1) {
+        //         npvs.push(`${i * 10}%`);
+        //         tens = 0;
+        //     } else {
+        //         npvs.push(null);
+        //     }
+        // }
+
+        return ['10%', '20%', '30%', '40%', '50%', '60%', '70%', '80%', '90%', '100%', '110%', '120%', '130%', '140%', '150%'];
+
+        // console.log(npvs);
+        // console.log(this.npvs.length);
+        // let lastValue = 0;
+        // this.npvs.forEach((npv) =>{
+        //     // npvs.push(`${npv.value}%`);
+        //     npvs.push(npv.value);
+        //     lastValue = npv.value;
+        //     // console.log(npv.value);
+        // });
+        //
+        //
+        // let start = lastValue + 10;
+        // if(this.interpolate().length > 0) {
+        //     for(let i = 0; i < (this.interpolate().length -1); i++) {
+        //         npvs.push(start);
+        //         start+=10;
+        //     }
+        // }
+
+        // return npvs;
     }
 
     npvValue(i, npv) {
@@ -282,11 +458,27 @@ export default class Well {
         return (!isNaN(npvValue)) ? npvValue : '';
     }
 
+    totalNcfValue() {
+        let value = 0;
+        for (let i = 0; i < this.prodProfile.length; i++) {
+            value += parseInt(this.prodProfile[i].ncf);
+        }
+        return value;
+    }
+
+    totalGrossValue() {
+        let value = 0;
+        for (let i = 0; i < this.prodProfile.length; i++) {
+            value += parseInt(this.prodProfile[i].revenue);
+        }
+        return value;
+    }
+
     totalNpvValue(npv) {
         let value = 0;
         for (let i = 0; i < this.prodProfile.length; i++) {
             let npvPres = this.npvValue(i, npv);
-            console.log(npvPres);
+            // console.log(npvPres);
             value += parseInt(npvPres);
         }
         return (!isNaN(value)) ? value : '';

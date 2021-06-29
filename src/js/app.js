@@ -25,6 +25,7 @@ const app = new Vue({
     data() {
         return {
             formCompletedStatus: false,
+            updateResult: 1,
         }
     },
 

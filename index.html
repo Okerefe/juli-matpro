@@ -26,6 +26,21 @@
 				margin-top: 3px;
 				margin-bottom: 3px;
 			}
+			h4 {
+				color: #000000;
+				font-weight: 700;
+
+			}
+			input[type=text] {
+				font-weight : 900;
+				font-size: 16pt;
+			}
+			td {
+				font-weight: 600;
+			}
+			th {
+				font-weight: 900;
+			}
 		</style>
 	</head>
 	<body>
@@ -43,7 +58,7 @@
 		<!-- Banner -->
 			<section id="banner">
 				<h1>Juli-MatPro</h1>
-				<p>Economic and Technical Analyzer for OnShore wells</p>
+				<p style="font-weight: 700; color: rgb(200,200,200);">Economic and Technical Analyzer for OnShore wells</p>
 			</section>
 
 		<!-- One -->
@@ -56,10 +71,12 @@
 					<well-form v-if="!formCompletedStatus"></well-form>
 					<div style="text-align: end;" v-if="!formCompletedStatus">
 						<br>
-						<input type="button" value="Analyze Wells" v-on:click.prevent="analyzeWells()"/>
+						<input type="button" value="Analyze Well" v-on:click.prevent="analyzeWells()"/>
 					</div>
 
 					<well-results v-if="formCompletedStatus"></well-results>
+
+<!--					<button type="button" v-on:click="updateResult++"></button>-->
 <!--					<well-results></well-results>-->
 
 				</div>
